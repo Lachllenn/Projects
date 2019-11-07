@@ -9,8 +9,6 @@ const char* password = "123456789";
 String ip;
 const int trigPin = D3;
 const int echoPin = D4;
-//long duration;
-//int distance;
 long duration, cm, inches;
 void setup() {
   // put your setup code here, to run once:
