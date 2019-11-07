@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <ESP8266WiFi.h>
 #include "SSD1306.h"
-#include <Servo.h>
+
 SSD1306 display(0x3c, D1, D2);
 int timer = 0;
 const char* ssid = "FPT UGlobal";
@@ -12,20 +12,12 @@ const int echoPin = D4;
 //long duration;
 //int distance;
 long duration, cm, inches;
-int pos = 0;    // variable to store the servo position
-Servo myservo;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115520);
-  myservo.attach(D6);
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
   display.init();
-  display.setFont(ArialMT_Plain_10);
-  display.drawString(0, 0, "hello world");
-  display.display();
-  delay(1000);
-  display.clear();
   Serial.print("Connecting to");
 
   Serial.println(ssid);
@@ -70,40 +62,4 @@ void loop() {
   Serial.print(cm);
   Serial.print("cm");
   Serial.println();
-
-//servo//
-if (cm < 10 )
-  {
-    for (pos = 0; pos <= 180; pos += 1)   // goes from 0 degrees to 180 degrees
-    {
-      // in steps of 1 degree
-      myservo.write(pos);              // tell servo to go to position in variable 'pos'
-                            // waits 15ms for the servo to reach the position
-    }
-  }
-  else if (cm > 10)
-  {
-    for (pos = 180; pos >= 0; pos -= 1)   // goes from 180 degrees to 0 degrees
-    {
-      myservo.write(pos);              // tell servo to go to position in variable 'pos'
-                          // waits 15ms for the servo to reach the position
-    }
-
-
-  }
-  
-
-
-
-
-///// display stuff ////
-  
-  display.clear();
-
-  display.drawString(0, 0, String(hour) + ":" + String(minute) + ":" + String(second)  );
-
-  display.drawString(0, 20,  ip);
-  display.drawString(0,30, String(cm) + "cm");
-  display.display();
- 
 }
