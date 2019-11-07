@@ -105,4 +105,7 @@ void loop() {
   Serial.print("cm");
   Serial.println();
   delay(100);
+  if(cm4 <10){
+  Serial.print("CM is less than 10cm Stop");
+  }  
 }
