@@ -1,40 +1,32 @@
 #include <Wire.h>
-#include <ESP8266WiFi.h>
-#include "SSD1306.h"
+//#include <ESP8266WiFi.h>
+//#include "SSD1306.h"
 
-SSD1306 display(0x3c, D1, D2);
-int timer = 0;
-const char* ssid = "FPT UGlobal";
-const char* password = "123456789";
-String ip;
-const int trigPin1 = D1;
-const int echoPin1 = D2;
-const int trigPin2 = D3;
-const int echoPin2 = D4;
-long duration, cm, inches;
+const int trigPin1 = 5;
+const int echoPin1 = 6;
+const int trigPin2 = 3;
+const int echoPin2 = 4;
+const int trigPin3 = 7;
+const int echoPin3 = 8;
+const int trigPin4 = 9;
+const int echoPin4 = 10;
+long duration1, cm1, inches1;
+long duration2, cm2, inches2;
+long duration3, cm3, inches3;
+long duration4, cm4, inches4;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115520);
-  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
-  display.init();
-  Serial.print("Connecting to");
-
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-
-  }
-  Serial.println("");
-  Serial.println("Wifi Connected");
-  Serial.println("IP address");
-  ip = WiFi.localIP().toString();
-  Serial.println(ip);
-  display.clear();
-
+  pinMode(trigPin1, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin1, INPUT); // Sets the echoPin as an Input
+  pinMode(trigPin2, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin2, INPUT); // Sets the echoPin as an Input
+  pinMode(trigPin3, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin3, INPUT); // Sets the echoPin as an Input
+  pinMode(trigPin4, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin4, INPUT); // Sets the echoPin as an Input
 }
+
 
 void loop() {
   //ultrasonic 1//
@@ -53,27 +45,64 @@ void loop() {
    digitalWrite(trigPin2, LOW);
    pinMode(echoPin2, INPUT);
    duration2 = pulseIn(echoPin2, HIGH);
+      //ultrasonic 3//
+   digitalWrite(trigPin3, LOW);
+   delayMicroseconds(5);
+   digitalWrite(trigPin3, HIGH);
+   delayMicroseconds(10);
+   digitalWrite(trigPin3, LOW);
+   pinMode(echoPin3, INPUT);
+   duration3 = pulseIn(echoPin3, HIGH);
+        //ultrasonic 4//
+   digitalWrite(trigPin4, LOW);
+   delayMicroseconds(5);
+   digitalWrite(trigPin4, HIGH);
+   delayMicroseconds(10);
+   digitalWrite(trigPin4, LOW);
+   pinMode(echoPin4, INPUT);
+   duration4 = pulseIn(echoPin4, HIGH);
   
   
-  
-  
-
    // Convert the time into a distance//
-  s1cm = (duration1/2) / 29.1;     // Divide by 29.1 or multiply by 0.0343
-  s1inches = (duration1/2) / 74;   // Divide by 74 or multiply by 0.0135
+  cm1 = (duration1/2) / 29.1;     // Divide by 29.1 or multiply by 0.0343
+  inches1= (duration1/2) / 74;   // Divide by 74 or multiply by 0.0135
   
-  s2cm = (duration2/2) / 29.1;     // Divide by 29.1 or multiply by 0.0343
-  s2inches = (duration2/2) / 74;   // Divide by 74 or multiply by 0.0135
+  cm2 = (duration2/2) / 29.1;     // Divide by 29.1 or multiply by 0.0343
+  inches2 = (duration2/2) / 74;   // Divide by 74 or multiply by 0.0135
+  cm3 = (duration3/2) / 29.1;     // Divide by 29.1 or multiply by 0.0343
+  inches3 = (duration3/2) / 74;   // Divide by 74 or multiply by 0.0135
+    cm4 = (duration4/2) / 29.1;     // Divide by 29.1 or multiply by 0.0343
+  inches4 = (duration4/2) / 74;   // Divide by 74 or multiply by 0.0135
   
   //serial output//
-  Serial.print(s1inches);
-  Serial.print("in,");
-  Serial.print(s1cm);
+  Serial.print("Sensor 1");
+  Serial.println();
+ // Serial.print("in, ");
+ // Serial.print(inches1);
+  Serial.print(cm1);
+  Serial.print("cm");
+  delay(100);
+  Serial.println();
+  Serial.print("Sensor 2");
+  Serial.println();
+ // Serial.print(inches2); 
+//  Serial.print("in, ");
+  Serial.print(cm2);
   Serial.print("cm");
   Serial.println();
-  Serial.print(s2inches);
-  Serial.print("in,");
-  Serial.print(s2cm);
+  delay(100);
+  Serial.println();
+  Serial.print("Sensor 3");
+  Serial.println();
+  Serial.print(cm3);
   Serial.print("cm");
   Serial.println();
+  delay(100);
+   Serial.println();
+  Serial.print("Sensor 4");
+  Serial.println();
+  Serial.print(cm4);
+  Serial.print("cm");
+  Serial.println();
+  delay(100);
 }
